@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>如何食用Bitwarden密码管理 - GREETINGS, MORTAL</title><meta name="Description" content="这里是AK的博客平台"><meta property="og:title" content="如何食用Bitwarden密码管理" />
+<meta property="og:description" content="引言 我猜测看到这篇文章的朋友，可能很多连什么是bitwarden都不知道。不着急，我们先从密码管理开始讲起。 如今我们每天有大量的时间在网上冲" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chenrenyu.com/how-to-use-bitwarden/" /><meta property="og:image" content="https://chenrenyu.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-01-28T00:00:00+00:00" /><meta property="og:site_name" content="GREETINGS, MORTAL" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://chenrenyu.com/logo.png"/>
+
+<meta name="twitter:title" content="如何食用Bitwarden密码管理"/>
+<meta name="twitter:description" content="引言 我猜测看到这篇文章的朋友，可能很多连什么是bitwarden都不知道。不着急，我们先从密码管理开始讲起。 如今我们每天有大量的时间在网上冲"/>
+<meta name="application-name" content="GREETINGS, MORTAL">
+<meta name="apple-mobile-web-app-title" content="GREETINGS, MORTAL"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://chenrenyu.com/how-to-use-bitwarden/" /><link rel="prev" href="https://chenrenyu.com/first-post/" /><link rel="next" href="https://chenrenyu.com/solutions-for-docker-stuck-on-pull/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "如何食用Bitwarden密码管理",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/chenrenyu.com\/how-to-use-bitwarden\/"
+        },"genre": "posts","keywords": "安全","wordcount":  2512 ,
+        "url": "https:\/\/chenrenyu.com\/how-to-use-bitwarden\/","datePublished": "2022-01-28T00:00:00+00:00","dateModified": "2022-01-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "AK"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="GREETINGS, MORTAL"></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 主页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/contact/"> 联系 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="GREETINGS, MORTAL"></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/" title="">主页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/contact/" title="">联系</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">如何食用Bitwarden密码管理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>AK</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-01-28">2022-01-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2512 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#引言">引言</a></li>
+    <li><a href="#假设分析">假设分析</a>
+      <ul>
+        <li><a href="#情形1">情形1</a></li>
+        <li><a href="#情形2">情形2</a></li>
+        <li><a href="#情形3">情形3</a></li>
+      </ul>
+    </li>
+    <li><a href="#其他tips">其他tips</a></li>
+    <li><a href="#关于bitwarden以及其他一些密码管理器">关于Bitwarden以及其他一些密码管理器</a></li>
+    <li><a href="#一些链接">一些链接</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="引言">引言</h2>
+<p>我猜测看到这篇文章的朋友，可能很多连什么是bitwarden都不知道。不着急，我们先从密码管理开始讲起。</p>
+<p>如今我们每天有大量的时间在网上冲浪，几乎是个网站都会要求你提供一个用户名和密码，基于此为你创建一个账户。在这样的环境背景下，一个人所拥有的网络账户中当然会包括微信、Paypal这类的高价值账户。</p>
+<h2 id="假设分析">假设分析</h2>
+<p>现在假设某个人的密码管理情况如下：</p>
+<p>这个人在几乎所有网站使用同一个密码。</p>
+<p>这个人使用不同的密码，并亲自记忆。</p>
+<p>这个人使用不同的密码，并通过密码管理器在不同网站随机生成密码并记录。</p>
+<p>我们对每一种情况进行分析：</p>
+<h3 id="情形1">情形1</h3>
+<p>密码足够复杂。即便大型公司的密码库安全性足够强，仍有可能某一天你在某个不知名小网站上使用的密码出卖了你，让你常用的密码暴露在黑客本人和他售卖密码库的对象手中。而密码库获得者可以通过撞库的方式，利用你在不知名网站上泄露的密码尝试登录你在其他网站的账户，从而窃取个人信息甚至盗窃财产。而这里的“即便”甚至都不一定成立，即使安全如LastPass（后文会讲），仍有密码泄露时间传出。</p>
+<p>密码不够复杂。这里的“不够复杂”包括如下可能性：密码过短，密码过于简单，密码使用了个人信息。</p>
+<p>密码过短。可以直接用暴力破解方式破解，也就是直接通过足够多次输入取得正确的密码。</p>
+<p>密码过于简单。指使用常见词汇来组成密码。如“password”这个次尽管有8位长，但密码破解者只需要几次输入就能得到，因为它是“常见密码榜单”前五的固定客户。请确保你的密码不在常见密码榜单内。</p>
+<p>密码使用了个人信息。诸如姓名，生日，甚至你家猫的名字都很容易从公开社交网络和媒体获得，将它们作为数字或者字符应用到密码中会增加被直接猜中的风险。</p>
+<p>需要注意的是，试图获取密码的人可能会将上述方法结合使用。</p>
+<h3 id="情形2">情形2</h3>
+<p>一种常用的技巧是替换。如密码格式为”#########<strong><strong>”，其中#####代表密码前缀，而</strong></strong>根据不同网站替换。</p>
+<p>例：将”platinum3776NGA”作为NGA论坛账户的密码，将”platinum3776baidu”作为百度账户的密码。</p>
+<p>这也是一种较为可行的策略，较单一密码安全。只是一个初步的例子，你可以探索更加高阶的技巧。</p>
+<p>如果你足够强大，用脑子记，我没什么可说的。请注意保养头发。请不要忘记重要密码。</p>
+<h3 id="情形3">情形3</h3>
+<p>iCloud钥匙串，Edge密码管理，Google Chrome都有密码管理服务，但在诸如Steam、Epic等非浏览器客户端登录时就不太方便了。这也是笔者不全面依靠浏览器进行密码管理的原因。另一方面，浏览器仅保存密码，在保存诸如Matlab、Tableau注册码等方面不够方便。</p>
+<h2 id="其他tips">其他tips</h2>
+<p>最最重要的是，不要将重要网站的密码和不重要网站（安全性难以保证）的密码混用。</p>
+<p>对于不重要的网站，如果只是因为必须要登入账户，密码丢失也几乎没有任何损失，那么完全可以采用毫无防备的密码。</p>
+<p>根据密码学，极弱密码比不设密码更加不安全。</p>
+<p>为什么手机PIN码足够短却相对安全？通过限制输入次数的方式，如5次失败输入后会锁定30秒，来防止足够多的输入。即便如此，我们仍然建议定期和不定期的更换PIN码。</p>
+<p>建议重要密码使用KeePass，或iCloud钥匙串、Google Chrome等加密方式留存一个备份。不要明文存储备份，如果仅用于导入导出，用后就删除。</p>
+<h2 id="关于bitwarden以及其他一些密码管理器">关于Bitwarden以及其他一些密码管理器</h2>
+<p>Bitwarden本身是开源项目，托管在GitHub上。但由于Bitwarden采用Microsoft SQL作为后端，对服务器的性能要求较高，小规模部署多采用同样托管在GitHub上的较为轻量化的项目Vaultwarden。笔者的服务器托管也采用Vaultwarden实现。Bitwarden与Vaultwarden使用同样的客户端（包括安卓，IOS，Linux和Windows多系统）和网页版，因此除小部分企业功能外，食用体验并无差别。（具体差别可参考Vaultwarden在Github托管页首页的介绍）</p>
+<p>在使用第三方托管服务器部署时，请将左上角的URL替换为托管网址。</p>
+<p>Bitwarden官方（疑似被墙）也提供免费的密码托管服务，付费用户（单人$10/year，家庭$3.33/month）可使用高级功能。</p>
+<p>最知名且好评率最高的密码管理器当属1password，闭源商业软件，$2.99/month单人的价格（国内好像有￥99/年的代理）让笔者望而却步，流下了贫穷的眼泪。如果有条件欢迎为笔者提供评测。其他较为知名的密码管理还有LastPass，2021年3月16日后不再提供免费跨端同步，现在高级版售价$3/month。LastPass有过泄密传闻，笔者不考虑。</p>
+<p>几乎所有密码管理软件都采用或至少包括AES-256算法的加密方式，根据密码学知识，暴力破解是接近不可能的，除非有划时代技术（如量子计算机）出现。所有密码管理器，无论本地还是云端密码数据库，也仅会存储加密数据库，绝对不会存储密码明文。Bitwarden官方文档显示，密码库加解密均在本地进行，服务器仅保存加密后的数据库。因此，即使管理者也同样绝对不可能解密你的密码数据库，除非你提供密钥。这同样意味着，如果你丢失了主密钥（解密数据库密钥），你的数据将会几乎永远永远的丢失。请务必牢记。</p>
+<p>如果对于托管在服务器上的密码管理软件不放心，还有一些其他选项留个喜欢折腾的朋友。笔者在搭建Bitwarden服务器之前使用过半年的Keepass，也是开源软件，转到Bitwarden的最大原因是客户端界面太丑。Windows桌面端可以用KeepassXC，界面比较现代，现在笔者将它作为备份使用。安卓端Keepass2Android同样功能完善，但太绿了。Keepass数据库完全存在本地，可以通过Webdev云盘（如微软Ondrive）自行同步多平台数据库。</p>
+<h2 id="一些链接">一些链接</h2>
+<p>Vaultwarden托管地址：<a href="https://github.com/dani-garcia/vaultwarden" target="_blank" rel="noopener noreffer ">https://github.com/dani-garcia/vaultwarden</a></p>
+<p>Bitwarden托管地址：<a href="https://github.com/bitwarden/web" target="_blank" rel="noopener noreffer ">https://github.com/bitwarden/web</a></p>
+<p>Bitwarden官网：<a href="https://bitwarden.com/" target="_blank" rel="noopener noreffer ">https://bitwarden.com/</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-01-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/how-to-use-bitwarden/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://chenrenyu.com/how-to-use-bitwarden/" data-title="如何食用Bitwarden密码管理"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E5%AE%89%E5%85%A8/">安全</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/first-post/" class="prev" rel="prev" title="第一篇文章"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>第一篇文章</a>
+            <a href="/solutions-for-docker-stuck-on-pull/" class="next" rel="next" title="docker镜像下载慢/失败的解决方法 ">docker镜像下载慢/失败的解决方法 <i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><a  rel="license external nofollow noopener noreffer" href="/little-site-big-news/" >小站大事记</a></div><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.106.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2021 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">AK</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp"><a rel="license external nofollow noopener noreffer" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2022011510号-1</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

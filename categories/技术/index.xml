@@ -1,0 +1,32 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>技术 - Category - GREETINGS, MORTAL</title>
+        <link>https://chenrenyu.com/categories/%E6%8A%80%E6%9C%AF/</link>
+        <description>技术 - Category - GREETINGS, MORTAL</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>inbox@chenrenyu.com (AK)</managingEditor>
+            <webMaster>inbox@chenrenyu.com (AK)</webMaster><lastBuildDate>Sat, 24 Dec 2022 16:05:30 &#43;0800</lastBuildDate><atom:link href="https://chenrenyu.com/categories/%E6%8A%80%E6%9C%AF/" rel="self" type="application/rss+xml" /><item>
+    <title>使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理</title>
+    <link>https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/</link>
+    <pubDate>Sat, 24 Dec 2022 16:05:30 &#43;0800</pubDate>
+    <author>AK</author>
+    <guid>https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/</guid>
+    <description><![CDATA[配置Docker Mailserver 下载配置文件，要对docker-compose.yml稍作修改，添加邮件中继。 1 2 3 4 5 DMS_GITHUB_URL=&#39;https://raw.githubusercontent.com/docker-mailserver/docker-mailserver/master&#39; wget &#34;${DMS_GITHUB_URL}/docker-compose.yml&#34; wget &#34;${DMS_GITHUB_URL}/mailserver.env&#34; # wget &#34;${DMS_GITHUB_URL}/setup.sh&#34; # chmod a+x ./setup.sh 完整配置文]]></description>
+</item>
+<item>
+    <title>docker镜像下载慢/失败的解决方法 </title>
+    <link>https://chenrenyu.com/solutions-for-docker-stuck-on-pull/</link>
+    <pubDate>Sun, 20 Nov 2022 00:00:00 &#43;0000</pubDate>
+    <author>AK</author>
+    <guid>https://chenrenyu.com/solutions-for-docker-stuck-on-pull/</guid>
+    <description><![CDATA[方案一：修改镜像源 这个方法在csdn、知乎那些地方说得太多了，我相信大部分人搜索到的第一个方法就是这个。尽管如此我还是重新说一下方法。 编辑配]]></description>
+</item>
+<item>
+    <title>如何食用Bitwarden密码管理</title>
+    <link>https://chenrenyu.com/how-to-use-bitwarden/</link>
+    <pubDate>Fri, 28 Jan 2022 00:00:00 &#43;0000</pubDate>
+    <author>AK</author>
+    <guid>https://chenrenyu.com/how-to-use-bitwarden/</guid>
+    <description><![CDATA[引言 我猜测看到这篇文章的朋友，可能很多连什么是bitwarden都不知道。不着急，我们先从密码管理开始讲起。 如今我们每天有大量的时间在网上冲]]></description>
+</item>
+</channel>
+</rss>

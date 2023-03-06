@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Mail - Tag - GREETINGS, MORTAL</title>
+        <link>https://chenrenyu.com/tags/mail/</link>
+        <description>Mail - Tag - GREETINGS, MORTAL</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>inbox@chenrenyu.com (AK)</managingEditor>
+            <webMaster>inbox@chenrenyu.com (AK)</webMaster><lastBuildDate>Sat, 24 Dec 2022 16:05:30 &#43;0800</lastBuildDate><atom:link href="https://chenrenyu.com/tags/mail/" rel="self" type="application/rss+xml" /><item>
+    <title>使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理</title>
+    <link>https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/</link>
+    <pubDate>Sat, 24 Dec 2022 16:05:30 &#43;0800</pubDate>
+    <author>AK</author>
+    <guid>https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/</guid>
+    <description><![CDATA[配置Docker Mailserver 下载配置文件，要对docker-compose.yml稍作修改，添加邮件中继。 1 2 3 4 5 DMS_GITHUB_URL=&#39;https://raw.githubusercontent.com/docker-mailserver/docker-mailserver/master&#39; wget &#34;${DMS_GITHUB_URL}/docker-compose.yml&#34; wget &#34;${DMS_GITHUB_URL}/mailserver.env&#34; # wget &#34;${DMS_GITHUB_URL}/setup.sh&#34; # chmod a+x ./setup.sh 完整配置文]]></description>
+</item>
+</channel>
+</rss>

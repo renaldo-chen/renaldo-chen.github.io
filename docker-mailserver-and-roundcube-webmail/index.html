@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理 - GREETINGS, MORTAL</title><meta name="Description" content="这里是AK的博客平台"><meta property="og:title" content="使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理" />
+<meta property="og:description" content="配置Docker Mailserver 下载配置文件，要对docker-compose.yml稍作修改，添加邮件中继。 1 2 3 4 5 DMS_GITHUB_URL=&#39;https://raw.githubusercontent.com/docker-mailserver/docker-mailserver/master&#39; wget &#34;${DMS_GITHUB_URL}/docker-compose.yml&#34; wget &#34;${DMS_GITHUB_URL}/mailserver.env&#34; # wget &#34;${DMS_GITHUB_URL}/setup.sh&#34; # chmod a&#43;x ./setup.sh 完整配置文" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/" /><meta property="og:image" content="https://chenrenyu.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-24T16:05:30+08:00" />
+<meta property="article:modified_time" content="2022-12-24T16:05:30+08:00" /><meta property="og:site_name" content="GREETINGS, MORTAL" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://chenrenyu.com/logo.png"/>
+
+<meta name="twitter:title" content="使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理"/>
+<meta name="twitter:description" content="配置Docker Mailserver 下载配置文件，要对docker-compose.yml稍作修改，添加邮件中继。 1 2 3 4 5 DMS_GITHUB_URL=&#39;https://raw.githubusercontent.com/docker-mailserver/docker-mailserver/master&#39; wget &#34;${DMS_GITHUB_URL}/docker-compose.yml&#34; wget &#34;${DMS_GITHUB_URL}/mailserver.env&#34; # wget &#34;${DMS_GITHUB_URL}/setup.sh&#34; # chmod a&#43;x ./setup.sh 完整配置文"/>
+<meta name="application-name" content="GREETINGS, MORTAL">
+<meta name="apple-mobile-web-app-title" content="GREETINGS, MORTAL"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/" /><link rel="prev" href="https://chenrenyu.com/solutions-for-docker-stuck-on-pull/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/chenrenyu.com\/docker-mailserver-and-roundcube-webmail\/"
+        },"genre": "posts","keywords": "Docker, Mail","wordcount":  2636 ,
+        "url": "https:\/\/chenrenyu.com\/docker-mailserver-and-roundcube-webmail\/","datePublished": "2022-12-24T16:05:30+08:00","dateModified": "2022-12-24T16:05:30+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "AK"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="GREETINGS, MORTAL"></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/"> 主页 </a><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="/contact/"> 联系 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="GREETINGS, MORTAL"></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/" title="">主页</a><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="/contact/" title="">联系</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>AK</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%E6%8A%80%E6%9C%AF/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>技术</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-12-24">2022-12-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2636 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#配置docker-mailserver">配置Docker Mailserver</a></li>
+    <li><a href="#配置dns和防火墙">配置DNS和防火墙</a>
+      <ul>
+        <li><a href="#dns配置">DNS配置</a></li>
+        <li><a href="#防火墙">防火墙</a></li>
+      </ul>
+    </li>
+    <li><a href="#用户管理">用户管理</a></li>
+    <li><a href="#小插曲">小插曲</a></li>
+    <li><a href="#安装roundcube-webmail">安装Roundcube Webmail</a></li>
+    <li><a href="#一些链接">一些链接</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="配置docker-mailserver">配置Docker Mailserver</h2>
+<p>下载配置文件，要对docker-compose.yml稍作修改，添加邮件中继。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">DMS_GITHUB_URL</span><span class="o">=</span><span class="s1">&#39;https://raw.githubusercontent.com/docker-mailserver/docker-mailserver/master&#39;</span>
+</span></span><span class="line"><span class="cl">wget <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DMS_GITHUB_URL</span><span class="si">}</span><span class="s2">/docker-compose.yml&#34;</span>
+</span></span><span class="line"><span class="cl">wget <span class="s2">&#34;</span><span class="si">${</span><span class="nv">DMS_GITHUB_URL</span><span class="si">}</span><span class="s2">/mailserver.env&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># wget &#34;${DMS_GITHUB_URL}/setup.sh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># chmod a+x ./setup.sh</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>完整配置文件如下，其中&lt;&gt;内的信息自行替换，mailserver.env为之前下载的原始文件，没有修改。</p>
+<p>如果是裸域安装，就在hostname内直接填写<code>&lt;domain&gt;.&lt;tld&gt;</code>。</p>
+<p>手动配置ssl，调用服务器配置的ssl文件，其他方法参考官方文档。</p>
+<p>为避免垃圾邮件泛滥，大部分服务器提供商通常会封锁25端口出站流量，不能直接发邮件，因此配置Mailgun作为邮件中继发件。</p>
+<p>第26行和第29、30行证书位置自行替换为对应位置。</p>
+<p>自签名证书直接套用此配置会报错，需另外配置，可去官方文档自行查询。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">mailserver</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">mailserver/docker-mailserver:11.3.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">mailserver</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># If the FQDN for your mail-server is only two labels (eg: example.com),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># you can assign this entirely to `hostname` and remove `domainname`.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;hostname&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">domainname</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;domain&gt;.&lt;tld&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">env_file</span><span class="p">:</span><span class="w"> </span><span class="l">mailserver.env</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># More information about the mail-server ports:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># https://docker-mailserver.github.io/docker-mailserver/edge/config/security/understanding-the-ports/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># To avoid conflicts with yaml base-60 float, DO NOT remove the quotation marks.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;25:25&#34;</span><span class="w"> </span><span class="c"># SMTP  (explicit TLS =&gt; STARTTLS)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;143:143&#34;</span><span class="w"> </span><span class="c"># IMAP4 (explicit TLS =&gt; STARTTLS)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;465:465&#34;</span><span class="w"> </span><span class="c"># ESMTP (implicit TLS)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;587:587&#34;</span><span class="w"> </span><span class="c"># ESMTP (explicit TLS =&gt; STARTTLS)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;993:993&#34;</span><span class="w"> </span><span class="c"># IMAP4 (implicit TLS)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./mail-data/:/var/mail/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./mail-state/:/var/mail-state/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./mail-logs/:/var/log/mail/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./config/:/tmp/docker-mailserver/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/etc/localtime:/etc/localtime:ro</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">/etc/nginx/ssl/:/etc/letsencrypt/:ro</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">SSL_TYPE=manual</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">SSL_CERT_PATH=/etc/letsencrypt/certs/&lt;cert&gt;.cer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">SSL_KEY_PATH=/etc/letsencrypt/private/&lt;private&gt;.key</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ENABLE_SPAMASSASSIN=1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ENABLE_FAIL2BAN=1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">POSTFIX_MESSAGE_SIZE_LIMIT=20971520</span><span class="w"> </span><span class="c"># 20M</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">UPDATE_CHECK_INTERVAL=7d</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RELAY_HOST=smtp.mailgun.org</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RELAY_PORT=587</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RELAY_USER=&lt;user&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">RELAY_PASSWORD=&lt;password&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">stop_grace_period</span><span class="p">:</span><span class="w"> </span><span class="l">1m</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;ss --listening --tcp | grep -P &#39;LISTEN.+:smtp&#39; || exit 1&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l">3s</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>15-mailboxes.conf为自定义邮箱文件夹配置，主要添加了存档文件夹，放在”./config/dovecot”下，也可以自行修改。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span><span class="lnt">93
+</span><span class="lnt">94
+</span><span class="lnt">95
+</span><span class="lnt">96
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">##
+</span></span><span class="line"><span class="cl">## Mailbox definitions
+</span></span><span class="line"><span class="cl">##
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># Each mailbox is specified in a separate mailbox section. The section name
+</span></span><span class="line"><span class="cl"># specifies the mailbox name. If it has spaces, you can put the name
+</span></span><span class="line"><span class="cl"># &#34;in quotes&#34;. These sections can contain the following mailbox settings:
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl"># auto:
+</span></span><span class="line"><span class="cl">#   Indicates whether the mailbox with this name is automatically created
+</span></span><span class="line"><span class="cl">#   implicitly when it is first accessed. The user can also be automatically
+</span></span><span class="line"><span class="cl">#   subscribed to the mailbox after creation. The following values are
+</span></span><span class="line"><span class="cl">#   defined for this setting:
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl">#     no        - Never created automatically.
+</span></span><span class="line"><span class="cl">#     create    - Automatically created, but no automatic subscription.
+</span></span><span class="line"><span class="cl">#     subscribe - Automatically created and subscribed.
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl"># special_use:
+</span></span><span class="line"><span class="cl">#   A space-separated list of SPECIAL-USE flags (RFC 6154) to use for the
+</span></span><span class="line"><span class="cl">#   mailbox. There are no validity checks, so you could specify anything
+</span></span><span class="line"><span class="cl">#   you want in here, but it&#39;s not a good idea to use flags other than the
+</span></span><span class="line"><span class="cl">#   standard ones specified in the RFC:
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl">#     \All       - This (virtual) mailbox presents all messages in the
+</span></span><span class="line"><span class="cl">#                  user&#39;s message store.
+</span></span><span class="line"><span class="cl">#     \Archive   - This mailbox is used to archive messages.
+</span></span><span class="line"><span class="cl">#     \Drafts    - This mailbox is used to hold draft messages.
+</span></span><span class="line"><span class="cl">#     \Flagged   - This (virtual) mailbox presents all messages in the
+</span></span><span class="line"><span class="cl">#                  user&#39;s message store marked with the IMAP \Flagged flag.
+</span></span><span class="line"><span class="cl">#     \Important - This (virtual) mailbox presents all messages in the
+</span></span><span class="line"><span class="cl">#                  user&#39;s message store deemed important to user.
+</span></span><span class="line"><span class="cl">#     \Junk      - This mailbox is where messages deemed to be junk mail
+</span></span><span class="line"><span class="cl">#                  are held.
+</span></span><span class="line"><span class="cl">#     \Sent      - This mailbox is used to hold copies of messages that
+</span></span><span class="line"><span class="cl">#                  have been sent.
+</span></span><span class="line"><span class="cl">#     \Trash     - This mailbox is used to hold messages that have been
+</span></span><span class="line"><span class="cl">#                  deleted.
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl"># comment:
+</span></span><span class="line"><span class="cl">#   Defines a default comment or note associated with the mailbox. This
+</span></span><span class="line"><span class="cl">#   value is accessible through the IMAP METADATA mailbox entries
+</span></span><span class="line"><span class="cl">#   &#34;/shared/comment&#34; and &#34;/private/comment&#34;. Users with sufficient
+</span></span><span class="line"><span class="cl">#   privileges can override the default value for entries with a custom
+</span></span><span class="line"><span class="cl">#   value.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># NOTE: Assumes &#34;namespace inbox&#34; has been defined in 10-mail.conf.
+</span></span><span class="line"><span class="cl">namespace inbox {
+</span></span><span class="line"><span class="cl">  # These mailboxes are widely used and could perhaps be created automatically:
+</span></span><span class="line"><span class="cl">  mailbox Drafts {
+</span></span><span class="line"><span class="cl">    auto = subscribe
+</span></span><span class="line"><span class="cl">    special_use = \Drafts
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">  mailbox Junk {
+</span></span><span class="line"><span class="cl">    auto = subscribe
+</span></span><span class="line"><span class="cl">    special_use = \Junk
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">  mailbox Trash {
+</span></span><span class="line"><span class="cl">    auto = subscribe
+</span></span><span class="line"><span class="cl">    special_use = \Trash
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  # For \Sent mailboxes there are two widely used names. We&#39;ll mark both of
+</span></span><span class="line"><span class="cl">  # them as \Sent. User typically deletes one of them if duplicates are created.
+</span></span><span class="line"><span class="cl">  mailbox Sent {
+</span></span><span class="line"><span class="cl">    auto = subscribe
+</span></span><span class="line"><span class="cl">    special_use = \Sent
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  #mailbox &#34;Sent Messages&#34; {
+</span></span><span class="line"><span class="cl">  #  special_use = \Sent
+</span></span><span class="line"><span class="cl">  #}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  mailbox Archive {
+</span></span><span class="line"><span class="cl">   auto = subscribe
+</span></span><span class="line"><span class="cl">   special_use = \Archive
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  # If you have a virtual &#34;All messages&#34; mailbox:
+</span></span><span class="line"><span class="cl">  #mailbox virtual/All {
+</span></span><span class="line"><span class="cl">  #  special_use = \All
+</span></span><span class="line"><span class="cl">  #  comment = All my messages
+</span></span><span class="line"><span class="cl">  #}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  # If you have a virtual &#34;Flagged&#34; mailbox:
+</span></span><span class="line"><span class="cl">  #mailbox virtual/Flagged {
+</span></span><span class="line"><span class="cl">  #  special_use = \Flagged
+</span></span><span class="line"><span class="cl">  #  comment = All my flagged messages
+</span></span><span class="line"><span class="cl">  #}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  # If you have a virtual &#34;Important&#34; mailbox:
+</span></span><span class="line"><span class="cl">  #mailbox virtual/Important {
+</span></span><span class="line"><span class="cl">  #  special_use = \Important
+</span></span><span class="line"><span class="cl">  #  comment = All my important messages
+</span></span><span class="line"><span class="cl">  #}
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="配置dns和防火墙">配置DNS和防火墙</h2>
+<h3 id="dns配置">DNS配置</h3>
+<p>裸域安装是没有必要的，无论是不是裸域，邮件后缀<code>@&lt;domain&gt;.&lt;tld&gt;</code>都能够收到。</p>
+<p>但是裸域安装要在”./config”文件夹下添加配置文件”postfix-main.cf”，加入以下内容，官方文档有写。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">mydestination = localhost.$mydomain, localhost
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关键在于MX解析的配置。</p>
+<p>以邮件服务器域名为<code>mail.&lt;domain&gt;.&lt;tld&gt;</code>为例，配置A解析mail到服务器ip地址，配置MX解析  <code>&lt;domain&gt;.&lt;tld&gt;</code>到<code>mail.&lt;domain&gt;.&lt;tld&gt;</code>，优先级设置为10，这样就保证了发往<code>@&lt;domain&gt;.&lt;tld&gt;</code>的邮件能够到达。</p>
+<p>生成DKIM等配置由于采用了邮件中继，因此直接使用邮件中继提供的内容即可，无需自行配置。以Mailgun为例，位于Sending &gt; Domain settings &gt; DNS records处。添加这些DNS记录是较为必要的，保证了邮件的送达率。</p>
+<p>注意，MX记录不要按照Mailgun给出的配置，其配置将收件指向Mailgun。</p>
+<h3 id="防火墙">防火墙</h3>
+<p>防火墙方面，25端口需要开放才能收到邮件。143端口为未加密IMAP，可以不开放。465端口和587端口为加密SMTP端口，建议开放。993端口为加密IMAP端口，建议开放。</p>
+<h2 id="用户管理">用户管理</h2>
+<p>这里列出了创建用户，添加别名，设置邮件配额的基本方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 添加用户</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it mailserver setup email add &lt;user&gt;@&lt;domain&gt;.&lt;tld&gt; &lt;password&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建用户别名</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it mailserver setup <span class="nb">alias</span> add &lt;alias&gt;@&lt;domain&gt;.&lt;tld&gt; &lt;user&gt;@&lt;domain&gt;.&lt;tld&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置邮件配额</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span> -it mailserver setup quota <span class="nb">set</span> &lt;user&gt;@&lt;domain&gt;.&lt;tld&gt; 2G
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更详细的内容自行查看官方文档。</p>
+<h2 id="小插曲">小插曲</h2>
+<p>使用一段时间后我查看log，发现有个ip一直在尝试破解登录我的邮箱，尝试了不同的用户名。遇到这样的情况，我们可以使用内置的fail2ban工具手动ban掉他的ip。</p>
+<p>启用/重启fail2ban工具。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it mailserver supervisorctl restart fail2ban
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Ban掉指定ip地址。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it mailserver setup fail2ban ban 45.128.234.165
+</span></span><span class="line"><span class="cl"><span class="c1"># 取消禁令</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># docker exec -it mailserver setup fail2ban unban 45.128.234.165</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="安装roundcube-webmail">安装Roundcube Webmail</h2>
+<p>roundcube是一个网络邮件客户端，可以通过如下配置文件安装。</p>
+<p>假定Docker Mailserver服务器的域名为<code>mail.&lt;domain&gt;.&lt;tld&gt;</code>。</p>
+<p>在环境中指定IMAP和SMTP端口，设置附件最大文件大小。也可采用mysql等数据库作为后端，但不是特别必要。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">roundcube</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">roundcube/roundcubemail:1.6.x-apache</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">roundcube</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./data:/var/www/html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./db/sqlite:/var/roundcube/db</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">./config:/var/roundcube/config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">&lt;port&gt;:80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ROUNDCUBEMAIL_DB_TYPE=sqlite</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ROUNDCUBEMAIL_SKIN=elastic</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ROUNDCUBEMAIL_DEFAULT_HOST=ssl://mail.&lt;domain&gt;.&lt;tld&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ROUNDCUBEMAIL_DEFAULT_PORT=993</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ROUNDCUBEMAIL_SMTP_SERVER=ssl://mail.&lt;domain&gt;.&lt;tld&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ROUNDCUBEMAIL_SMTP_PORT=465</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE=20M</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置Apache2或Nginx等http服务器通过SSL反向代理到端口是更安全的。这里给出一个Nginx的例子，按照实际情况修改。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">    listen 80;
+</span></span><span class="line"><span class="cl">    listen [::]:80;
+</span></span><span class="line"><span class="cl">    server_name &lt;host&gt;.&lt;domain&gt;.&lt;tld&gt;;
+</span></span><span class="line"><span class="cl">    return 301 https://$server_name$request_uri;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">    listen 443 ssl;
+</span></span><span class="line"><span class="cl">    listen [::]:443 ssl;
+</span></span><span class="line"><span class="cl">    server_name &lt;host&gt;.&lt;domain&gt;.&lt;tld&gt;;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    client_max_body_size 20m;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ssl_certificate      /etc/nginx/ssl/certs/*.&lt;domain&gt;.&lt;tld&gt;-fullchain.cer;
+</span></span><span class="line"><span class="cl">    ssl_certificate_key  /etc/nginx/ssl/private/*.&lt;domain&gt;.&lt;tld&gt;.key;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ssl_session_cache    shared:SSL:1m;
+</span></span><span class="line"><span class="cl">    ssl_session_timeout  5m;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ssl_ciphers  HIGH:!aNULL:!MD5;
+</span></span><span class="line"><span class="cl">    ssl_prefer_server_ciphers  on;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    location / {
+</span></span><span class="line"><span class="cl">        proxy_pass http://127.0.0.1:&lt;port&gt;/;
+</span></span><span class="line"><span class="cl">        proxy_set_header Upgrade $http_upgrade;
+</span></span><span class="line"><span class="cl">        proxy_set_header Connection &#39;upgrade&#39;;
+</span></span><span class="line"><span class="cl">        proxy_cache_bypass $http_upgrade;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        proxy_set_header Host  $http_host;
+</span></span><span class="line"><span class="cl">        proxy_set_header X-Real-IP  $remote_addr;
+</span></span><span class="line"><span class="cl">        proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+</span></span><span class="line"><span class="cl">        proxy_set_header X-Forwarded-Proto  $scheme;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    access_log  /var/log/nginx/webmail.access.log;
+</span></span><span class="line"><span class="cl">    error_log   /var/log/nginx/webmail.error.log;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="一些链接">一些链接</h2>
+<p>docker-mailserver官方文档：<a href="https://docker-mailserver.github.io/docker-mailserver/v10.0/introduction/" target="_blank" rel="noopener noreffer ">https://docker-mailserver.github.io/docker-mailserver/v10.0/introduction/</a></p>
+<p>docker-mailserver托管地址：<a href="https://github.com/docker-mailserver/docker-mailserver" target="_blank" rel="noopener noreffer ">https://github.com/docker-mailserver/docker-mailserver</a></p>
+<p>roundcube-docker托管地址：<a href="https://github.com/roundcube/roundcubemail-docker" target="_blank" rel="noopener noreffer ">https://github.com/roundcube/roundcubemail-docker</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-12-24</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/docker-mailserver-and-roundcube-webmail/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/" data-title="使用Docker Mailserver搭建邮件服务器并用Roundcube Webmail管理"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/docker/">Docker</a>,&nbsp;<a href="/tags/mail/">Mail</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/solutions-for-docker-stuck-on-pull/" class="prev" rel="prev" title="docker镜像下载慢/失败的解决方法 "><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>docker镜像下载慢/失败的解决方法 </a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><a  rel="license external nofollow noopener noreffer" href="/little-site-big-news/" >小站大事记</a></div><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.106.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2021 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">AK</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                    <span class="icp"><a rel="license external nofollow noopener noreffer" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2022011510号-1</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

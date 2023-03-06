@@ -1,0 +1,20 @@
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    ><url>
+            <loc>https://chenrenyu.com/categories/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/tags/docker/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/tags/mail/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/posts/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/tags/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/docker-mailserver-and-roundcube-webmail/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/categories/%E6%8A%80%E6%9C%AF/</loc><lastmod>2022-12-24T16:05:30&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/solutions-for-docker-stuck-on-pull/</loc><lastmod>2022-11-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/tags/linux/</loc><lastmod>2022-11-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/how-to-use-bitwarden/</loc><lastmod>2022-01-28T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/tags/%E5%AE%89%E5%85%A8/</loc><lastmod>2022-01-28T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/first-post/</loc><lastmod>2022-01-02T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/about/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/little-site-big-news/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://chenrenyu.com/contact/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>

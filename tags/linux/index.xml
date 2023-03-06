@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Linux - Tag - GREETINGS, MORTAL</title>
+        <link>https://chenrenyu.com/tags/linux/</link>
+        <description>Linux - Tag - GREETINGS, MORTAL</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>inbox@chenrenyu.com (AK)</managingEditor>
+            <webMaster>inbox@chenrenyu.com (AK)</webMaster><lastBuildDate>Sun, 20 Nov 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="https://chenrenyu.com/tags/linux/" rel="self" type="application/rss+xml" /><item>
+    <title>docker镜像下载慢/失败的解决方法 </title>
+    <link>https://chenrenyu.com/solutions-for-docker-stuck-on-pull/</link>
+    <pubDate>Sun, 20 Nov 2022 00:00:00 &#43;0000</pubDate>
+    <author>AK</author>
+    <guid>https://chenrenyu.com/solutions-for-docker-stuck-on-pull/</guid>
+    <description><![CDATA[方案一：修改镜像源 这个方法在csdn、知乎那些地方说得太多了，我相信大部分人搜索到的第一个方法就是这个。尽管如此我还是重新说一下方法。 编辑配]]></description>
+</item>
+</channel>
+</rss>
